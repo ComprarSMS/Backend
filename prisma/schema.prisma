@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum NumberStatus {
+  AVAILABLE
+  RENTED
+}
+
+enum RentalStatus {
+  ACTIVE
+  COMPLETED
+  EXPIRED
+  CANCELLED
+}
+
+model Service {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  sortOrder Int      @default(0)
+  rentals   Rental[]
+}
+
+model VirtualNumber {
+  id          String       @id @default(cuid())
+  e164        String       @unique
+  display     String
+  countryIso  String
+  countryName String
+  flag        String
+  status      NumberStatus @default(AVAILABLE)
+  rentals     Rental[]
+  createdAt   DateTime     @default(now())
+
+  @@index([status])
+}
+
+model Rental {
+  id              String        @id @default(cuid())
+  virtualNumberId String
+  virtualNumber   VirtualNumber @relation(fields: [virtualNumberId], references: [id])
+  serviceId       String
+  service         Service       @relation(fields: [serviceId], references: [id])
+  status          RentalStatus  @default(ACTIVE)
+  expiresAt       DateTime
+  messages        Message[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([status])
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  rentalId   String
+  rental     Rental   @relation(fields: [rentalId], references: [id], onDelete: Cascade)
+  sender     String
+  body       String
+  code       String?
+  receivedAt DateTime @default(now())
+
+  @@index([rentalId])
+}
