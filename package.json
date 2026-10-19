@@ -1,8 +1,8 @@
 {
-  "name": "quierounsms-backend",
+  "name": "comprarsms-backend",
   "version": "0.1.0",
   "private": true,
-  "description": "API de QuieroUnSMS: números virtuales, SMS en tiempo real y expiración por cola.",
+  "description": "API de ComprarSMS: números virtuales, SMS en tiempo real y expiración por cola.",
   "scripts": {
     "dev": "nest start --watch",
     "build": "nest build",

@@ -1,6 +1,6 @@
 # Backend
 
-API de QuieroUnSMS. NestJS, Prisma, Socket.io y BullMQ.
+API de ComprarSMS. NestJS, Prisma, Socket.io y BullMQ.
 
 El proveedor de SMS de esta demo es un job de BullMQ: al reservar un número, unos segundos después llega un código de verificación ficticio. Otro job libera el número cuando vence el tiempo.
 
